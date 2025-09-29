@@ -17,17 +17,26 @@ async function createMemory({vectors,metadata,messageId}){
   ])
 }
 
-async function queryMemory({queryVector,limit=5,metadata}){
-  const data =await chatgpt_index.query({
-       vector:queryVector,
-        topK:limit,
-        filter : metadata?{metadata}:undefined,
+async function queryMemory({ queryVector, limit = 5, metadata }) {
+  if (!Array.isArray(queryVector) || queryVector.length === 0) return [];
 
+  // Build Pinecone filter
+  let filter;
+  if (metadata) {
+    filter = {};
+    for (const key in metadata) {
+      filter[key] = { $eq: metadata[key] }; // ✅ use $eq operator
+    }
+  }
 
+  const data = await chatgpt_index.query({
+    vector: queryVector,
+    topK: limit,
+    filter,                // proper Pinecone filter format
+    includeMetadata: true,
+  });
 
-
-})
-  return data.matches
+  return data.matches || [];
 }
 
 
