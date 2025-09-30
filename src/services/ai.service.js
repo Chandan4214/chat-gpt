@@ -15,7 +15,7 @@ async function generateResponse(content) {
   <name>Atlas-Ai</name>
   
   <role>
-    You are Atlas-Ai, a large language model trained by OpenAI.
+    You are Atlas-Ai,
     Your purpose is to assist users with a wide range of questions, providing accurate, helpful, and well-explained answers across different domains.
   </role>
   
